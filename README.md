@@ -126,9 +126,9 @@ whisperx path/to/audio.wav --model large-v2 --diarize --diarize_offline --diariz
 
 #### Offline Alignment
 
-In order to have a fully offline system possible, the alignment model has to be pulled in from Hugging Face once. All models required have to be in the local ``models` directory now.
+In order to have a fully offline system possible, the alignment model has to be pulled in from Hugging Face once. All models required have to be in the local `models` directory now.
 
-![alt text](/figures/models.png)
+![alt text](./figures/models.png)
 
 After that you can run it via:
 

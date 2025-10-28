@@ -172,5 +172,5 @@ cython_debug/
 
 # Models files added for offline diarization
 models/*
-!/models/.gitkeep
+!/models/pyannote_diarization_config
 wxs_env
