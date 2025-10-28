@@ -171,4 +171,6 @@ cython_debug/
 .pypirc
 
 # Models files added for offline diarization
-models/*.bin
+models/*
+!/models/.gitkeep
+wxs_env

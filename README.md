@@ -124,6 +124,31 @@ To use offline diarization with the command line:
 whisperx path/to/audio.wav --model large-v2 --diarize --diarize_offline --diarize_config models/pyannote_diarization_config.yaml
 ```
 
+#### Offline Alignment
+
+In order to have a fully offline system possible, the alignment model has to be pulled in from Hugging Face once. All models required have to be in the local ``models` directory now.
+
+![alt text](/figures/models.png)
+
+After that you can run it via:
+
+```bash
+whisperx path/to/audio.wav --model large --diarize --diarize_offline --diarize_config models/pyannote_diarization_config.yaml --model_cache_only True --model_dir ./models
+```
+
+A few other things for my setup:
+1. I have provided a command file as an example input of mine
+2. I used py -m venv wxs_env to setup the project, which may not be the recommended way to set it up (see uvx above for developer install)
+3. In order to add gpu support, I used the following pip install command after pip installing the project:
+
+```bash
+pip install -e .
+```
+
+```bash
+pip install torch==2.8.0+cu128 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
+
 <h2 align="left" id="example">Usage 💬 (command line)</h2>
 
 ### English

@@ -3,6 +3,7 @@ Forced Alignment with Whisper
 C. Max Bain
 """
 import math
+import os
 
 from dataclasses import dataclass
 from typing import Iterable, Optional, Union, List
@@ -74,7 +75,7 @@ DEFAULT_ALIGN_MODELS_HF = {
 }
 
 
-def load_align_model(language_code: str, device: str, model_name: Optional[str] = None, model_dir=None):
+def load_align_model(language_code: str, device: str, model_name: Optional[str] = None, model_dir=None, local_files_only: bool = False):
     if model_name is None:
         # use default model
         if language_code in DEFAULT_ALIGN_MODELS_TORCH:
@@ -94,11 +95,23 @@ def load_align_model(language_code: str, device: str, model_name: Optional[str] 
         align_dictionary = {c.lower(): i for i, c in enumerate(labels)}
     else:
         try:
-            processor = Wav2Vec2Processor.from_pretrained(model_name, cache_dir=model_dir)
-            align_model = Wav2Vec2ForCTC.from_pretrained(model_name, cache_dir=model_dir)
+            if local_files_only:
+                # If local_files_only is True, try cache_dir with local_files_only
+                print(f"Attempting to load from model_dir with local_files_only=True")
+                processor = Wav2Vec2Processor.from_pretrained(model_name, cache_dir=model_dir, local_files_only=True)
+                align_model = Wav2Vec2ForCTC.from_pretrained(model_name, cache_dir=model_dir, local_files_only=True)
+            else:
+                # Fall back to downloading if allowed
+                print(f"Loading alignment model from HuggingFace: {model_name}")
+                processor = Wav2Vec2Processor.from_pretrained(model_name, cache_dir=model_dir)
+                align_model = Wav2Vec2ForCTC.from_pretrained(model_name, cache_dir=model_dir)
         except Exception as e:
             print(e)
-            print(f"Error loading model from huggingface, check https://huggingface.co/models for finetuned wav2vec2.0 models")
+            print(f"Error loading model from huggingface or local storage.")
+            if local_files_only:
+                print(f"Tried local path: {local_model_path}")
+                print(f"Make sure the model is downloaded and saved in the correct location.")
+            print(f"Check https://huggingface.co/models for finetuned wav2vec2.0 models")
             raise ValueError(f'The chosen align_model "{model_name}" could not be found in huggingface (https://huggingface.co/models) or torchaudio (https://pytorch.org/audio/stable/pipelines.html#id14)')
         pipeline_type = "huggingface"
         align_model = align_model.to(device)

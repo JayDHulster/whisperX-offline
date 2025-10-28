@@ -1,0 +1,1 @@
+whisperx '..\..\My Videos\bavikhove.mp4' --output_dir ./output --model large --device cuda --compute_type float16 --diarize --diarize_offline --diarize_config models/pyannote_diarization_config.yaml --model_cache_only True --model_dir ./models
