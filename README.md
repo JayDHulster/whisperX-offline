@@ -140,6 +140,7 @@ A few other things for my setup:
 1. I have provided a command file as an example input of mine
 2. I used py -m venv wxs_env to setup the project, which may not be the recommended way to set it up (see uvx above for developer install)
 3. In order to add gpu support, I used the following pip install command after pip installing the project:
+4. 2 scripts that run independently, `download_all_align_models.py` to pre-download the alignment models, and `add_timestamp.py`for further internal use
 
 ```bash
 pip install -e .
@@ -148,6 +149,8 @@ pip install -e .
 ```bash
 pip install torch==2.8.0+cu128 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 ```
+
+Furthermore 
 
 <h2 align="left" id="example">Usage 💬 (command line)</h2>
 
